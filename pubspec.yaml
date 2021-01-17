@@ -13,6 +13,8 @@ dependencies:
 
   flutter_riverpod:
   uuid:
+  flutter_state_notifier:
+  state_notifier:
 
 dev_dependencies:
   flutter_test:
