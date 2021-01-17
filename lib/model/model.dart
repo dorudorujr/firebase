@@ -1,0 +1,1 @@
+export 'package:moor_sample/model/task.dart';
