@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(top: 50),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start, /// 左寄せ
                       children: [
                         Center(
                           child: Text(
@@ -107,8 +107,9 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,  /// 子要素の間に均等なスペースを空ける
                               children: [
+                                /// InkWell: タップアクションを付加
                                 InkWell(
                                   child: const Padding(
                                     padding: EdgeInsets.all(8),
@@ -187,6 +188,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
