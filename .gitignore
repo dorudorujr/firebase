@@ -39,3 +39,10 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# CocoaPod
+ios/Pods/*
+
+# bundler
+ios/.bundle/*
+ios/!.bundle/config
