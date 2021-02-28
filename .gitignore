@@ -46,3 +46,6 @@ ios/Pods/*
 # bundler
 ios/.bundle/*
 ios/!.bundle/config
+
+### Xcode ###
+ios/!*.xcworkspace/contents.xcworkspacedata
