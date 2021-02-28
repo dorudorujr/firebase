@@ -15,6 +15,7 @@ dependencies:
   uuid:
   flutter_state_notifier:
   state_notifier:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:
