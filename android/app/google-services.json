@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "311340686772",
+    "project_id": "flutter-sample-497d2",
+    "storage_bucket": "flutter-sample-497d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311340686772:android:d430886f2e0de0b66e26e1",
+        "android_client_info": {
+          "package_name": "sugioka.com.nhkforschool.moor_sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311340686772-9v6neej9d61gdvpvmblirr2u17sf5l3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sugioka.com.nhkforschool.moor_sample",
+            "certificate_hash": "2c78f36b48d57f903ba9ff0fcf108e3a0a0df80f"
+          }
+        },
+        {
+          "client_id": "311340686772-nom199qligrh1f3lfnackrcqgajea40l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1ypDmOqBtomJ4pG0zLoU_cYfg3BP_QjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311340686772-nom199qligrh1f3lfnackrcqgajea40l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
