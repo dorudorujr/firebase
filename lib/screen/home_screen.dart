@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
             final displayedTasks = watch(filteredTasks);
             final filter = watch(filterProvider);
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),  /// 縦のpaddingに16ずつ追加
               child: Column(
                 children: [
                   Container(
@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            vertical: 16,
+                            vertical: 16,   /// 左右に16ずつ
                           ),
                           child: TextField(
                             controller: _textEditingController,
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                               if (_newTaskTitle.isEmpty) {
                                 _newTaskTitle = 'No Title';
                               }
-                              taskList.addTask(_newTaskTitle);
+                              taskList.addTask(_newTaskTitle);    /// TODOを追加
                               clearTextField();
                             },
                           ),
@@ -149,7 +149,7 @@ class HomeScreen extends StatelessWidget {
                                     if (doneTasks.isNotEmpty) {
                                       taskList.deleteDoneTasks();
                                       showSnackBar(
-                                        previousTasks: allTasks,
+                                        previousTasks: allTasks,    /// rebuildされてない段階では削除前のstate
                                         taskList: taskList,
                                         content:
                                         'Done tasks have been deleted.',
