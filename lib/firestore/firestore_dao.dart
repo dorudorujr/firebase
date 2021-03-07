@@ -8,14 +8,14 @@ final fireStoreDaoProvider = Provider((_) => FireStoreDao());
 class FireStoreDao {
   FireStoreDao() : super();
 
-  final todos = FirebaseFirestore.instance.collection('todos');
+  final tasks = FirebaseFirestore.instance.collection('tasks');
 
-  Future<void> addUser(Task task) {
-    return todos
+  Future<void> addTask(Task task) {
+    return tasks
       .add({
-      'title': task.title, // John Doe
-      'isDone': task.isDone, // Stokes and Sons
-      'id': task.id // 42
+      'title': task.title,
+      'isDone': task.isDone,
+      'id': task.id
     })
       .then((value) => print("success"))
       .catchError((error) => print("Failed to add user: $error"));
