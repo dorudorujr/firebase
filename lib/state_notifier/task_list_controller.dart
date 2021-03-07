@@ -1,11 +1,17 @@
 import 'package:moor_sample/model/model.dart';
 import 'package:state_notifier/state_notifier.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:moor_sample/firestore/firestore.dart';
 
 class TaskList extends StateNotifier<List<Task>> {
   // 引数に初期リストを入れる、なければ空のリスト
-  TaskList([List<Task> initialTask]) : super(initialTask ?? []);
+  TaskList(List<Task> initialTask,this._read) : super(initialTask ?? []);
+
+  final Reader _read;
 
   void addTask(String title) {
+    _read(fireStoreDaoProvider).addTask(Task(title: title));
     state = [...state, Task(title: title)];
   }
 

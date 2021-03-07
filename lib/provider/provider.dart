@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_sample/state_notifier/state_notifier.dart';
 import 'package:moor_sample/model/model.dart';
 
-final StateNotifierProvider<TaskList> taskListProvider = StateNotifierProvider((_) => TaskList([]));
+final StateNotifierProvider<TaskList> taskListProvider = StateNotifierProvider((ref) => TaskList([],ref.read));
 
 /// TODO: 変数名を変えたい
 final isNotDoneTasksCount = Provider((ref) => ref.watch(taskListProvider.state).where((task) => !task.isDone).length);
