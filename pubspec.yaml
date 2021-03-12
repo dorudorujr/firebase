@@ -16,6 +16,7 @@ dependencies:
   flutter_state_notifier:
   state_notifier:
   cloud_firestore:
+  firebase_core:
 
 dev_dependencies:
   flutter_test:

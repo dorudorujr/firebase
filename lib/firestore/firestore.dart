@@ -1,0 +1,1 @@
+export 'package:moor_sample/firestore/firestore_dao.dart';
