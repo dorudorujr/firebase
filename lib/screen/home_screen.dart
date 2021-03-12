@@ -191,42 +191,30 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  StreamBuilder(
-                    stream: firestoreDao.getTasksSnapshot(),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong');
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("Loading");
-                      }
-
-                      /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
-                      return Expanded(
-                        child: ListView(
-                          children: snapshot.data.docs.map((DocumentSnapshot document) {
-                            return TaskTile(
-                              taskTitle: document.data()['title'],
-                              isChecked: document.data()['isDone'],
-                              checkboxCallback: (bool value) {
-                                taskList.toggleDone(document.data()['id']);
-                              },
-                              longPressCallback: () {
-                                //TODO: 削除処理実装
-                                //taskList.deleteTask(task);
-                                showSnackBar(
-                                  previousTasks: displayedTasks,
-                                  taskList: taskList,
-                                  content: '${document.data()['title']} has been deleted.',
-                                  scaffoldState: Scaffold.of(context),
-                                );
-                              },
+                  /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        final task = displayedTasks[index];
+                        return TaskTile(
+                          taskTitle: task.title,
+                          isChecked: task.isDone,
+                          checkboxCallback: (bool value) {
+                            taskList.toggleDone(task.id);
+                          },
+                          longPressCallback: () {
+                            taskList.deleteTask(task);
+                            showSnackBar(
+                              previousTasks: displayedTasks,
+                              taskList: taskList,
+                              content: '${task.title} has been deleted.',
+                              scaffoldState: Scaffold.of(context),
                             );
-                          }).toList(),
-                        ),
-                      );
-                    }
+                          },
+                        );
+                      },
+                      itemCount: displayedTasks.length,
+                    ),
                   ),
                 ],
               ),

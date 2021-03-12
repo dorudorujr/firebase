@@ -6,13 +6,23 @@ import 'package:moor_sample/firestore/firestore.dart';
 
 class TaskList extends StateNotifier<List<Task>> {
   // 引数に初期リストを入れる、なければ空のリスト
-  TaskList(List<Task> initialTask,this._read) : super(initialTask ?? []);
+  TaskList(List<Task> initialTask,this._read) : super(initialTask ?? []) {
+    final fireStoreDao = _read(fireStoreDaoProvider);
+    final snapshots = fireStoreDao.getTasksSnapshot();
+
+    snapshots.listen((snapshot) {
+      final newTasks = snapshot.docs.map((doc) {
+        return Task.fromJson(doc.data());
+      }).toList();
+
+      state = newTasks;
+    });
+  }
 
   final Reader _read;
 
   void addTask(String title) {
     _read(fireStoreDaoProvider).addTask(Task(title: title));
-    state = [...state, Task(title: title)];
   }
 
   void toggleDone(String id) {
