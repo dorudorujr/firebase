@@ -1,12 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';  // TODO: firestoreのクラスをここに持ち込まないようにしたい
 
 import 'package:moor_sample/provider/provider.dart';
 import 'package:moor_sample/model/model.dart';
 import 'package:moor_sample/state_notifier/state_notifier.dart';
 import 'package:moor_sample/widget/task_tile.dart';
-import 'package:moor_sample/firestore/firestore.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -54,7 +52,6 @@ class HomeScreen extends StatelessWidget {
             final allTasks = watch(taskListProvider.state);
             final displayedTasks = watch(filteredTasks);
             final filter = watch(filterProvider);
-            final firestoreDao = watch(fireStoreDaoProvider);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),  /// 縦のpaddingに16ずつ追加
               child: Column(
