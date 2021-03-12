@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';  // TODO: firestoreのクラスをここに持ち込まないようにしたい
 
 import 'package:moor_sample/provider/provider.dart';
 import 'package:moor_sample/model/model.dart';
 import 'package:moor_sample/state_notifier/state_notifier.dart';
 import 'package:moor_sample/widget/task_tile.dart';
+import 'package:moor_sample/firestore/firestore.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -52,6 +54,7 @@ class HomeScreen extends StatelessWidget {
             final allTasks = watch(taskListProvider.state);
             final displayedTasks = watch(filteredTasks);
             final filter = watch(filterProvider);
+            final firestoreDao = watch(fireStoreDaoProvider);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),  /// 縦のpaddingに16ずつ追加
               child: Column(
@@ -188,30 +191,42 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        final task = displayedTasks[index];
-                        return TaskTile(
-                          taskTitle: task.title,
-                          isChecked: task.isDone,
-                          checkboxCallback: (bool value) {
-                            taskList.toggleDone(task.id);
-                          },
-                          longPressCallback: () {
-                            taskList.deleteTask(task);
-                            showSnackBar(
-                              previousTasks: displayedTasks,
-                              taskList: taskList,
-                              content: '${task.title} has been deleted.',
-                              scaffoldState: Scaffold.of(context),
+                  StreamBuilder(
+                    stream: firestoreDao.getTasksSnapshot(),
+                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text("Loading");
+                      }
+
+                      /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
+                      return Expanded(
+                        child: ListView(
+                          children: snapshot.data.docs.map((DocumentSnapshot document) {
+                            return TaskTile(
+                              taskTitle: document.data()['title'],
+                              isChecked: document.data()['isDone'],
+                              checkboxCallback: (bool value) {
+                                taskList.toggleDone(document.data()['id']);
+                              },
+                              longPressCallback: () {
+                                //TODO: 削除処理実装
+                                //taskList.deleteTask(task);
+                                showSnackBar(
+                                  previousTasks: displayedTasks,
+                                  taskList: taskList,
+                                  content: '${document.data()['title']} has been deleted.',
+                                  scaffoldState: Scaffold.of(context),
+                                );
+                              },
                             );
-                          },
-                        );
-                      },
-                      itemCount: displayedTasks.length,
-                    ),
+                          }).toList(),
+                        ),
+                      );
+                    }
                   ),
                 ],
               ),

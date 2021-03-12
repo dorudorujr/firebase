@@ -20,4 +20,8 @@ class FireStoreDao {
       .then((value) => print("success"))
       .catchError((error) => print("Failed to add user: $error"));
   }
+
+  Stream<QuerySnapshot> getTasksSnapshot() {
+    return tasks.snapshots();
+  }
 }
