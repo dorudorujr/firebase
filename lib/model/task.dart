@@ -12,4 +12,12 @@ class Task {
   final String id;
   final String title;
   final bool isDone;
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      title: json['title'] as String,
+      isDone: json['isDone'] as bool,
+      id: json['id'] as String,
+    );
+  }
 }
