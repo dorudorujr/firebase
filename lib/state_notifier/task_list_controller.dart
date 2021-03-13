@@ -25,14 +25,8 @@ class TaskList extends StateNotifier<List<Task>> {
     _read(fireStoreDaoProvider).addTask(Task(title: title));
   }
 
-  void toggleDone(String id) {
-    state = [
-      for (final task in state)
-        if (task.id == id)
-          Task(id: task.id, title: task.title, isDone: !task.isDone)
-        else
-          task
-    ];
+  void toggleDone(Task updateTask) {
+    _read(fireStoreDaoProvider).updateDone(updateTask);
   }
 
   void deleteTask(Task target) {

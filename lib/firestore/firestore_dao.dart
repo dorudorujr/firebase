@@ -25,6 +25,10 @@ class FireStoreDao {
     return tasks.snapshots();
   }
 
+  void updateDone(Task task) {
+    tasks.doc(task.id).update({'isDone': !task.isDone});
+  }
+
   void deleteTask(Task target) {
     tasks
       .doc(target.id)
