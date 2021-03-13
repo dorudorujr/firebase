@@ -32,4 +32,21 @@ class FireStoreDao {
       .then((value) => print('success'))
       .catchError((error) => print('delete error:${error}'));
   }
+
+  void deleteAllTask() {
+    final tasksCollection = tasks.get();
+
+    tasksCollection.then((value) {
+      final batch = FirebaseFirestore.instance.batch();
+      if (value.size == 0) {
+        return 0;
+      }
+
+      value.docs.forEach((element) {
+        batch.delete(element.reference);
+      });
+
+      batch.commit();
+    });
+  }
 }

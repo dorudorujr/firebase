@@ -40,7 +40,7 @@ class TaskList extends StateNotifier<List<Task>> {
   }
 
   void deleteAllTasks() {
-    state = [];
+    _read(fireStoreDaoProvider).deleteAllTask();
   }
 
   void deleteDoneTasks() {
