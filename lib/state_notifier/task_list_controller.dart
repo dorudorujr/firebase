@@ -44,7 +44,7 @@ class TaskList extends StateNotifier<List<Task>> {
   }
 
   void deleteDoneTasks() {
-    state = state.where((task) => !task.isDone).toList();
+    _read(fireStoreDaoProvider).deleteDoneTasks();
   }
 
   void updateTasks(List<Task> newTasks) {

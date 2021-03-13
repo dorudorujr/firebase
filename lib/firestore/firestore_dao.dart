@@ -49,4 +49,21 @@ class FireStoreDao {
       batch.commit();
     });
   }
+
+  void deleteDoneTasks() {
+    final doneTasksCollection = tasks.where("isDone", isEqualTo: true).get();
+
+    doneTasksCollection.then((value) {
+      final batch = FirebaseFirestore.instance.batch();
+      if (value.size == 0) {
+        return 0;
+      }
+
+      value.docs.forEach((element) {
+        batch.delete(element.reference);
+      });
+
+      batch.commit();
+    });
+  }
 }
