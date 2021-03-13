@@ -24,4 +24,46 @@ class FireStoreDao {
   Stream<QuerySnapshot> getTasksSnapshot() {
     return tasks.snapshots();
   }
+
+  void deleteTask(Task target) {
+    tasks
+      .doc(target.id)
+      .delete()
+      .then((value) => print('success'))
+      .catchError((error) => print('delete error:${error}'));
+  }
+
+  void deleteAllTask() {
+    final tasksCollection = tasks.get();
+
+    tasksCollection.then((value) {
+      final batch = FirebaseFirestore.instance.batch();
+      if (value.size == 0) {
+        return 0;
+      }
+
+      value.docs.forEach((element) {
+        batch.delete(element.reference);
+      });
+
+      batch.commit();
+    });
+  }
+
+  void deleteDoneTasks() {
+    final doneTasksCollection = tasks.where("isDone", isEqualTo: true).get();
+
+    doneTasksCollection.then((value) {
+      final batch = FirebaseFirestore.instance.batch();
+      if (value.size == 0) {
+        return 0;
+      }
+
+      value.docs.forEach((element) {
+        batch.delete(element.reference);
+      });
+
+      batch.commit();
+    });
+  }
 }

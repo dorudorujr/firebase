@@ -13,11 +13,11 @@ class Task {
   final String title;
   final bool isDone;
 
-  factory Task.fromJson(Map<String, dynamic> json) {
+  factory Task.fromJson(Map<String, dynamic> json, String id) {
     return Task(
       title: json['title'] as String,
       isDone: json['isDone'] as bool,
-      id: json['id'] as String,
+      id: id,
     );
   }
 }

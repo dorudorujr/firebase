@@ -12,7 +12,7 @@ class TaskList extends StateNotifier<List<Task>> {
 
     snapshots.listen((snapshot) {
       final newTasks = snapshot.docs.map((doc) {
-        return Task.fromJson(doc.data());
+        return Task.fromJson(doc.data(),doc.id);
       }).toList();
 
       state = newTasks;
@@ -36,15 +36,15 @@ class TaskList extends StateNotifier<List<Task>> {
   }
 
   void deleteTask(Task target) {
-    state = state.where((task) => task.id != target.id).toList();
+    _read(fireStoreDaoProvider).deleteTask(target);
   }
 
   void deleteAllTasks() {
-    state = [];
+    _read(fireStoreDaoProvider).deleteAllTask();
   }
 
   void deleteDoneTasks() {
-    state = state.where((task) => !task.isDone).toList();
+    _read(fireStoreDaoProvider).deleteDoneTasks();
   }
 
   void updateTasks(List<Task> newTasks) {
