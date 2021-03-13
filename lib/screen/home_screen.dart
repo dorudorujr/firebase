@@ -197,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                           taskTitle: task.title,
                           isChecked: task.isDone,
                           checkboxCallback: (bool value) {
-                            taskList.toggleDone(task.id);
+                            taskList.toggleDone(task);
                           },
                           longPressCallback: () {
                             taskList.deleteTask(task);
