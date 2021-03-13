@@ -24,4 +24,12 @@ class FireStoreDao {
   Stream<QuerySnapshot> getTasksSnapshot() {
     return tasks.snapshots();
   }
+
+  void deleteTask(Task target) {
+    tasks
+      .doc(target.id)
+      .delete()
+      .then((value) => print('success'))
+      .catchError((error) => print('delete error:${error}'));
+  }
 }
