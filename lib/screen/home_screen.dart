@@ -44,180 +44,178 @@ class HomeScreen extends StatelessWidget {
     }
 
 
-    return MaterialApp(
-      home: Scaffold(
-        body: Consumer(
-          builder: (context, watch, child) {
-            final taskList = watch(taskListProvider);
-            final allTasks = watch(taskListProvider.state);
-            final displayedTasks = watch(filteredTasks);
-            final filter = watch(filterProvider);
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),  /// 縦のpaddingに16ずつ追加
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 50),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, /// 左寄せ
-                      children: [
-                        Center(
-                          child: Text(
-                            'ToDo List',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
+    return Scaffold(
+      body: Consumer(
+        builder: (context, watch, child) {
+          final taskList = watch(taskListProvider);
+          final allTasks = watch(taskListProvider.state);
+          final displayedTasks = watch(filteredTasks);
+          final filter = watch(filterProvider);
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),  /// 縦のpaddingに16ずつ追加
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, /// 左寄せ
+                    children: [
+                      Center(
+                        child: Text(
+                          'ToDo List',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,   /// 左右に16ずつ
-                          ),
-                          child: TextField(
-                            controller: _textEditingController,
-                            decoration: InputDecoration(
-                              hintText: 'Enter a todo title',
-                              suffixIcon: IconButton(
-                                onPressed: clearTextField,
-                                icon: Icon(Icons.clear),
-                              ),
-                            ),
-                            textAlign: TextAlign.start,
-                            onChanged: (newText) {
-                              _newTaskTitle = newText;
-                            },
-                            onSubmitted: (newText) {
-                              if (_newTaskTitle.isEmpty) {
-                                _newTaskTitle = 'No Title';
-                              }
-                              taskList.addTask(_newTaskTitle);    /// TODOを追加
-                              clearTextField();
-                            },
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,   /// 左右に16ずつ
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                '${watch(isNotDoneTasksCount)} tasks left',
-                              ),
+                        child: TextField(
+                          controller: _textEditingController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter a todo title',
+                            suffixIcon: IconButton(
+                              onPressed: clearTextField,
+                              icon: Icon(Icons.clear),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,  /// 子要素の間に均等なスペースを空ける
-                              children: [
-                                /// InkWell: タップアクションを付加
-                                InkWell(
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text('All'),
-                                  ),
-                                  onTap: () => filter.state = Filter.all,
+                          ),
+                          textAlign: TextAlign.start,
+                          onChanged: (newText) {
+                            _newTaskTitle = newText;
+                          },
+                          onSubmitted: (newText) {
+                            if (_newTaskTitle.isEmpty) {
+                              _newTaskTitle = 'No Title';
+                            }
+                            taskList.addTask(_newTaskTitle);    /// TODOを追加
+                            clearTextField();
+                          },
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              '${watch(isNotDoneTasksCount)} tasks left',
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,  /// 子要素の間に均等なスペースを空ける
+                            children: [
+                              /// InkWell: タップアクションを付加
+                              InkWell(
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text('All'),
                                 ),
-                                InkWell(
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text('Active'),
-                                  ),
-                                  onTap: () => filter.state = Filter.active,
+                                onTap: () => filter.state = Filter.all,
+                              ),
+                              InkWell(
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text('Active'),
                                 ),
-                                InkWell(
-                                  onTap: () => filter.state = Filter.done,
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text('Done'),
-                                  ),
+                                onTap: () => filter.state = Filter.active,
+                              ),
+                              InkWell(
+                                onTap: () => filter.state = Filter.done,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text('Done'),
                                 ),
-                                InkWell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Text(
-                                      'Delete Done',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                              ),
+                              InkWell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    'Delete Done',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  onTap: () {
-                                    final doneTasks = allTasks
-                                      .where((task) => task.isDone)
-                                      .toList();
-                                    if (doneTasks.isNotEmpty) {
-                                      taskList.deleteDoneTasks();
-                                      showSnackBar(
-                                        previousTasks: allTasks,    /// rebuildされてない段階では削除前のstate
-                                        taskList: taskList,
-                                        content:
-                                        'Done tasks have been deleted.',
-                                        scaffoldState: Scaffold.of(context),
-                                      );
-                                    }
-                                  },
                                 ),
-                                InkWell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Text(
-                                      'Delete All',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                onTap: () {
+                                  final doneTasks = allTasks
+                                    .where((task) => task.isDone)
+                                    .toList();
+                                  if (doneTasks.isNotEmpty) {
+                                    taskList.deleteDoneTasks();
+                                    showSnackBar(
+                                      previousTasks: allTasks,    /// rebuildされてない段階では削除前のstate
+                                      taskList: taskList,
+                                      content:
+                                      'Done tasks have been deleted.',
+                                      scaffoldState: Scaffold.of(context),
+                                    );
+                                  }
+                                },
+                              ),
+                              InkWell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    'Delete All',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  onTap: () {
-                                    if (allTasks.isNotEmpty) {
-                                      taskList.deleteAllTasks();
-                                      showSnackBar(
-                                        previousTasks: allTasks,
-                                        taskList: taskList,
-                                        content: 'All tasks have been deleted.',
-                                        scaffoldState: Scaffold.of(context),
-                                      );
-                                    }
-                                  },
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                                onTap: () {
+                                  if (allTasks.isNotEmpty) {
+                                    taskList.deleteAllTasks();
+                                    showSnackBar(
+                                      previousTasks: allTasks,
+                                      taskList: taskList,
+                                      content: 'All tasks have been deleted.',
+                                      scaffoldState: Scaffold.of(context),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        final task = displayedTasks[index];
-                        return TaskTile(
-                          taskTitle: task.title,
-                          isChecked: task.isDone,
-                          checkboxCallback: (bool value) {
-                            taskList.toggleDone(task);
-                          },
-                          longPressCallback: () {
-                            taskList.deleteTask(task);
-                            showSnackBar(
-                              previousTasks: displayedTasks,
-                              taskList: taskList,
-                              content: '${task.title} has been deleted.',
-                              scaffoldState: Scaffold.of(context),
-                            );
-                          },
-                        );
-                      },
-                      itemCount: displayedTasks.length,
-                    ),
+                ),
+                /// ExpandedというWidgetは、RowやColumnの子Widget間の隙間を目一杯埋めたいときに使います。
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      final task = displayedTasks[index];
+                      return TaskTile(
+                        taskTitle: task.title,
+                        isChecked: task.isDone,
+                        checkboxCallback: (bool value) {
+                          taskList.toggleDone(task);
+                        },
+                        longPressCallback: () {
+                          taskList.deleteTask(task);
+                          showSnackBar(
+                            previousTasks: displayedTasks,
+                            taskList: taskList,
+                            content: '${task.title} has been deleted.',
+                            scaffoldState: Scaffold.of(context),
+                          );
+                        },
+                      );
+                    },
+                    itemCount: displayedTasks.length,
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
