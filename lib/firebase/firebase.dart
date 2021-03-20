@@ -1,0 +1,1 @@
+export 'package:moor_sample/firebase/anonymous_authentication.dart';
