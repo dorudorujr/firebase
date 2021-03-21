@@ -5,6 +5,7 @@ import 'package:moor_sample/provider/provider.dart';
 import 'package:moor_sample/model/model.dart';
 import 'package:moor_sample/state_notifier/state_notifier.dart';
 import 'package:moor_sample/widget/task_tile.dart';
+import 'package:moor_sample/firebase/anonymous_authentication.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -211,6 +212,13 @@ class HomeScreen extends StatelessWidget {
                     },
                     itemCount: displayedTasks.length,
                   ),
+                ),
+                RaisedButton(
+                  child: Text('LogOut'),
+                  onPressed: () async {
+                    await watch(anonymousAuthenticationProvider).signout();
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),

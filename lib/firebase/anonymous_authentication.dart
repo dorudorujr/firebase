@@ -11,4 +11,8 @@ class AnonymousAuthentication {
   Future<UserCredential> authentication() async {
     return firebaseAuth.signInAnonymously();
   }
+
+  Future<void> signout() async {
+    await firebaseAuth.signOut();
+  }
 }
