@@ -213,6 +213,7 @@ class HomeScreen extends StatelessWidget {
                     itemCount: displayedTasks.length,
                   ),
                 ),
+                /// Logout機能
                 RaisedButton(
                   child: Text('LogOut'),
                   onPressed: () async {
