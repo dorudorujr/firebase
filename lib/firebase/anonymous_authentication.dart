@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authenticationProvider = Provider((_) => AnonymousAuthentication());
+final authenticationProvider = Provider((_) => Authentication());
 
-//TODO: クラス名がめちゃくちゃなので修正したい
-class AnonymousAuthentication {
-  AnonymousAuthentication() : super();
+class Authentication {
+  Authentication() : super();
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
