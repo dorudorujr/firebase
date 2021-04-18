@@ -53,4 +53,8 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
+  void showSnackbar(String message) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+  }
+
 }
