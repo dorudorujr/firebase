@@ -218,9 +218,10 @@ class HomeScreen extends StatelessWidget {
                   child: Text('LogOut'),
                   onPressed: () async {
                     await watch(anonymousAuthenticationProvider).signout();
-                    Navigator.pop(context);
+                    Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
                   },
                 ),
+                Spacer(),
               ],
             ),
           );
