@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// 面倒だったのでStateNotifierで管理していない
 class PhoneAuthenticationScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _phoneNumberController = TextEditingController();
