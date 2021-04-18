@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final anonymousAuthenticationProvider = Provider((_) => AnonymousAuthentication());
 
+//TODO: クラス名がめちゃくちゃなので修正したい
 class AnonymousAuthentication {
   AnonymousAuthentication() : super();
 
