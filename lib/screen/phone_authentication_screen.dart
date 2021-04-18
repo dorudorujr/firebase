@@ -6,6 +6,8 @@ class SignInScreen extends StatelessWidget {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
+  String _verificationId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
