@@ -12,7 +12,7 @@ class SignInController extends StateNotifier<bool> {
   final Reader _read;
 
   Future<UserCredential> anonymousSignin() async {
-    UserCredential user = await _read(anonymousAuthenticationProvider).authentication();
+    UserCredential user = await _read(authenticationProvider).authentication();
     if (user != null) {
       state = true;
       return user;

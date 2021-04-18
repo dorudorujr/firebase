@@ -218,7 +218,7 @@ class HomeScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('LogOut'),
                   onPressed: () async {
-                    await watch(anonymousAuthenticationProvider).signout();
+                    await watch(authenticationProvider).signout();
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context){
                         return LaunchScreen();
