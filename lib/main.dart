@@ -9,7 +9,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(
     ProviderScope(
-      child: LaunchScreen(),
+      child: MaterialApp(
+        home: LaunchScreen(),
+      ),
     ),
   );
 }
