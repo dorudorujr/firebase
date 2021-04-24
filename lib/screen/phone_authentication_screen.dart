@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:moor_sample/firebase/firebase.dart';
+
 /// 面倒だったのでStateNotifierで管理していない
 class PhoneAuthenticationScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,7 +35,7 @@ class PhoneAuthenticationScreen extends StatelessWidget {
                     color: Colors.greenAccent[400],
                     child: Text("認証コード要求"),
                     onPressed: () async {
-                      //verifyPhoneNumber();
+                      _verificationId = await watch(authenticationProvider).getSMSCode(showSnackbar, _phoneNumberController.text);
                     },
                   ),
                 ),
