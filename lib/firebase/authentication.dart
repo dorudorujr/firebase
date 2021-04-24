@@ -7,16 +7,15 @@ class Authentication {
   Authentication() : super();
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String _verificationId = "";
 
   Future<UserCredential> authentication() async {
     return firebaseAuth.signInAnonymously();
   }
 
   /// 認証コード取得処理
-  Future<String> getSMSCode(Function showSnackBar, String phoneNumber) async {
+  Future<void> getSMSCode(Function showSnackBar, String phoneNumber) async {
     try {
-      String _verificationId = "";
-
       ///ユーザーがこの電話番号を使ってすでにサインインしている場合のコールバック
       PhoneVerificationCompleted verificationCompleted = (PhoneAuthCredential phoneAuthCredential) async {
         await firebaseAuth.signInWithCredential(phoneAuthCredential);
@@ -46,16 +45,16 @@ class Authentication {
         verificationFailed: verificationFailed,
         codeSent: codeSent,
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
-
-      return _verificationId;
     } catch(e) {
+      print("Failed to Verify Phone Number: ${e}");
       showSnackBar("Failed to Verify Phone Number: ${e}");
-      return "";
     }
   }
 
   Future<void> signInWithPhoneNumber(Function showSnackBar, String verificationId, String smsController) async {
     try {
+      print("verificationId:${verificationId}");
+      print("認証コード:${smsController}");
       final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: smsController,
@@ -66,11 +65,16 @@ class Authentication {
       showSnackBar("Successfully signed in UID: ${user.uid}");
       print("Successfully signed in UID: ${user.uid}");
     } catch (e) {
+      print("Failed to sign in: " + e.toString());
       showSnackBar("Failed to sign in: " + e.toString());
     }
   }
 
   Future<void> signout() async {
     await firebaseAuth.signOut();
+  }
+
+  String getVerificationId() {
+    return _verificationId;
   }
 }

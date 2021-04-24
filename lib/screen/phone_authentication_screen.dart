@@ -10,8 +10,6 @@ class PhoneAuthenticationScreen extends StatelessWidget {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
-  String _verificationId;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +34,7 @@ class PhoneAuthenticationScreen extends StatelessWidget {
                     color: Colors.greenAccent[400],
                     child: Text("認証コード要求"),
                     onPressed: () async {
-                      _verificationId = await watch(authenticationProvider).getSMSCode(showSnackbar, _phoneNumberController.text);
+                      await watch(authenticationProvider).getSMSCode(showSnackbar, _phoneNumberController.text);
                     },
                   ),
                 ),
@@ -50,7 +48,8 @@ class PhoneAuthenticationScreen extends StatelessWidget {
                   child: RaisedButton(
                     color: Colors.greenAccent[200],
                     onPressed: () async {
-                      await watch(authenticationProvider).signInWithPhoneNumber(showSnackbar, _verificationId, _smsController.text);
+                      final verificationId = watch(authenticationProvider).getVerificationId();
+                      await watch(authenticationProvider).signInWithPhoneNumber(showSnackbar, verificationId, _smsController.text);
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
                     },
                     child: Text("Sign in")),
