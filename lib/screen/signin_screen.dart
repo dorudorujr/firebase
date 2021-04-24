@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_sample/state_notifier/signin_screen/signin_controller.dart';
 
 import 'package:moor_sample/screen/home_screen.dart';
+import 'package:moor_sample/screen/phone_authentication_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   @override
@@ -31,8 +32,10 @@ class SignInScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('Singin'),
                   onPressed: (){
-                    // 押したら反応するコードを書く
-                    // 画面遷移のコード
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PhoneAuthenticationScreen(),)
+                    );
                   },
                 ),
               ],

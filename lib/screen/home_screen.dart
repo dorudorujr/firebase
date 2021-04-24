@@ -5,7 +5,7 @@ import 'package:moor_sample/provider/provider.dart';
 import 'package:moor_sample/model/model.dart';
 import 'package:moor_sample/state_notifier/state_notifier.dart';
 import 'package:moor_sample/widget/task_tile.dart';
-import 'package:moor_sample/firebase/anonymous_authentication.dart';
+import 'package:moor_sample/firebase/authentication.dart';
 import 'package:moor_sample/screen/launch_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -218,7 +218,7 @@ class HomeScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('LogOut'),
                   onPressed: () async {
-                    await watch(anonymousAuthenticationProvider).signout();
+                    await watch(authenticationProvider).signout();
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context){
                         return LaunchScreen();
