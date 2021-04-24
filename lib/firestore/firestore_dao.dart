@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:moor_sample/model/task.dart';
 
@@ -8,10 +9,10 @@ final fireStoreDaoProvider = Provider((_) => FireStoreDao());
 class FireStoreDao {
   FireStoreDao() : super();
 
-  final tasks = FirebaseFirestore.instance.collection('tasks');
+  final _tasks = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).collection('tasks');
 
   Future<void> addTask(Task task) {
-    return tasks
+    return _tasks
       .add({
       'title': task.title,
       'isDone': task.isDone,
@@ -22,15 +23,15 @@ class FireStoreDao {
   }
 
   Stream<QuerySnapshot> getTasksSnapshot() {
-    return tasks.snapshots();
+    return _tasks.snapshots();
   }
 
   void updateDone(Task task) {
-    tasks.doc(task.id).update({'isDone': !task.isDone});
+    _tasks.doc(task.id).update({'isDone': !task.isDone});
   }
 
   void deleteTask(Task target) {
-    tasks
+    _tasks
       .doc(target.id)
       .delete()
       .then((value) => print('success'))
@@ -38,7 +39,7 @@ class FireStoreDao {
   }
 
   void deleteAllTask() {
-    final tasksCollection = tasks.get();
+    final tasksCollection = _tasks.get();
 
     tasksCollection.then((value) {
       final batch = FirebaseFirestore.instance.batch();
@@ -55,7 +56,7 @@ class FireStoreDao {
   }
 
   void deleteDoneTasks() {
-    final doneTasksCollection = tasks.where("isDone", isEqualTo: true).get();
+    final doneTasksCollection = _tasks.where("isDone", isEqualTo: true).get();
 
     doneTasksCollection.then((value) {
       final batch = FirebaseFirestore.instance.batch();
