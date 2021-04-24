@@ -54,6 +54,22 @@ class Authentication {
     }
   }
 
+  Future<void> signInWithPhoneNumber(Function showSnackBar, String verificationId, String smsController) async {
+    try {
+      final AuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: smsController,
+      );
+
+      final User user = (await firebaseAuth.signInWithCredential(credential)).user;
+
+      showSnackBar("Successfully signed in UID: ${user.uid}");
+      print("Successfully signed in UID: ${user.uid}");
+    } catch (e) {
+      showSnackBar("Failed to sign in: " + e.toString());
+    }
+  }
+
   Future<void> signout() async {
     await firebaseAuth.signOut();
   }

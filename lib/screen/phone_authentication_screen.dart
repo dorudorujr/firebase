@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:moor_sample/firebase/firebase.dart';
+import 'package:moor_sample/screen/home_screen.dart';
 
 /// 面倒だったのでStateNotifierで管理していない
 class PhoneAuthenticationScreen extends StatelessWidget {
@@ -49,7 +50,8 @@ class PhoneAuthenticationScreen extends StatelessWidget {
                   child: RaisedButton(
                     color: Colors.greenAccent[200],
                     onPressed: () async {
-                      //signInWithPhoneNumber();
+                      await watch(authenticationProvider).signInWithPhoneNumber(showSnackbar, _verificationId, _smsController.text);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
                     },
                     child: Text("Sign in")),
                 ),
